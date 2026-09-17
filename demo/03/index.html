@@ -36,10 +36,10 @@
     }
 
     .headline:hover .char {
-      /* element-scoped を指定し、文字ごとに違う delay を割り当てます。 */
+      /* 文字ごとに違う delay を割り当てます。 */
       animation:
         flash 500ms ease
-        random(--delay element-scoped, 0ms, 600ms);
+        random(0ms, 600ms);
     }
 
     .hint {
@@ -63,7 +63,7 @@
       }
     }
 
-    @supports not (width: random(--test element-scoped, 1px, 2px)) {
+    @supports not (width: random(1px, 2px)) {
       .supported-content {
         display: none !important;
       }
@@ -90,7 +90,7 @@
     </p>
   </div>
 
-  <p class="unsupported">Safari 26.5以降で確認してください。<br>このデモはCSSのrandom()とelement-scopedを使用しています。</p>
+  <p class="unsupported">Safari 26.2以降で確認してください。<br>このデモはCSSのrandom()を使用しています。</p>
 </main>
 </body>
 </html>
