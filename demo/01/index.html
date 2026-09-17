@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>1. いいねボタンのパーティクルのデモ</title>
+  <link href="../base.css" rel="stylesheet" />
+  <style>
+    .demo {
+      width: min(92vw, 620px);
+      text-align: center;
+    }
+
+    .like-button {
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      width: min(78vw, 420px);
+      padding: 0;
+      overflow: visible;
+      color: #3223b3;
+      background: transparent;
+      border: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .like-button svg {
+      display: block;
+      width: 100%;
+      overflow: visible;
+    }
+
+    .button-label {
+      padding: 10px 16px;
+      color: #fff;
+      background: #3223b3;
+      border-radius: 999px;
+    }
+
+    .explosion {
+      fill: none;
+      stroke: #7c71f6;
+      stroke-width: 1;
+      opacity: 0;
+      transform-box: view-box;
+      transform-origin: 250px 250px;
+    }
+
+    .heart {
+      fill: rgb(50 35 179 / 18%);
+      transform-box: view-box;
+      transform-origin: 250px 250px;
+    }
+
+    .particle {
+      /* 粒子の飛ぶ方向をランダムにします。 */
+      rotate: random(0turn, 1turn);
+      transform-box: view-box;
+      transform-origin: 250px 250px;
+    }
+
+    .particle circle {
+      /* 色相・彩度・明度をランダムにして、毎回違う配色にします。 */
+      fill: hsl(
+        random(145deg, 335deg)
+        random(55%, 85%)
+        random(68%, 82%)
+      );
+      opacity: 0;
+    }
+
+    .is-playing .explosion {
+      animation: explosion 800ms forwards;
+    }
+
+    .is-playing .heart {
+      animation: heart 800ms forwards;
+    }
+
+    .is-playing .particle circle {
+      /* 飛距離・速度・開始タイミングを粒子ごとに変えます。 */
+      animation:
+        particle
+        random(1200ms, 1800ms)
+        ease-out
+        random(0ms, 160ms)
+        forwards;
+    }
+
+    .caption {
+      margin: 6px 0 0;
+      color: #665cae;
+      font-size: 14px;
+    }
+
+    @keyframes particle {
+      0%,
+      25% {
+        opacity: 0;
+        transform: translateX(130px);
+      }
+
+      30%,
+      85% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(random(220px, 290px));
+      }
+    }
+
+    @keyframes explosion {
+      0% {
+        opacity: 0;
+        transform: scale(0.02);
+      }
+
+      15% {
+        opacity: 1;
+        stroke-width: 180;
+      }
+
+      55% {
+        opacity: 0.7;
+        stroke-width: 2;
+        transform: scale(1.05);
+      }
+
+      100% {
+        opacity: 0;
+        stroke-width: 0;
+        transform: scale(1.12);
+      }
+    }
+
+    @keyframes heart {
+      0%,
+      35% {
+        fill: rgb(50 35 179 / 18%);
+        transform: scale(0.78);
+      }
+
+      55% {
+        fill: #3223b3;
+        transform: scale(1.18);
+      }
+
+      72% {
+        transform: scale(0.94);
+      }
+
+      100% {
+        fill: #3223b3;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+<main class="demo">
+  <div class="supported-content">
+    <button class="like-button" type="button">
+      <svg viewBox="0 0 500 500">
+        <circle class="explosion" cx="250" cy="250" r="150" />
+
+        <g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+          <g class="particle"><circle cx="250" cy="250" r="7" /></g>
+        </g>
+
+        <path
+          class="heart"
+          d="M250,187.4c-31.8-47.8-95.5-19.8-95.5,32.2c0,35.2,31.8,60.3,55.7,79.2c24.9,19.7,31.8,23.9,39.8,31.8c7.9-7.9,14.6-12.6,39.8-31.8c24.3-18.5,55.7-44.4,55.7-79.6C345.5,167.6,281.8,139.7,250,187.4z"
+        />
+      </svg>
+      <span class="button-label">もう一度再生</span>
+    </button>
+    <p class="caption">方向・距離・速度・色を random() でばらつかせています。</p>
+  </div>
+
+  <p class="unsupported">Safari 26.2以降で確認してください。<br>このデモはCSSのrandom()を使用しています。</p>
+</main>
+
+<script>
+  const likeButton = document.querySelector(".like-button");
+
+  const play = () => {
+    likeButton.classList.remove("is-playing");
+
+    // アニメーションを再実行するため、クラスを付け直す前にスタイル計算を更新します。
+    requestAnimationFrame(() => {
+      likeButton.classList.add("is-playing");
+    });
+  };
+
+  likeButton?.addEventListener("click", play);
+  play();
+</script>
+</body>
+</html>

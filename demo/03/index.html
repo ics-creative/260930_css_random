@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>3. 文字ごとのランダムな時間差のデモ</title>
+  <link href="../base.css" rel="stylesheet" />
+  <style>
+    .panel {
+      width: min(92vw, 980px);
+      padding: clamp(36px, 7vw, 84px);
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 24px 70px rgb(50 35 179 / 10%);
+    }
+
+    .headline {
+      margin: 0;
+      color: #3223b3;
+      font-size: 30px;
+      line-height: 1.17;
+      cursor: pointer;
+    }
+
+    .line {
+      display: block;
+    }
+
+    .char,
+    .space {
+      display: inline-block;
+    }
+
+    .char {
+      color: #3223b3;
+    }
+
+    .headline:hover .char {
+      /* element-scoped を指定し、文字ごとに違う delay を割り当てます。 */
+      animation:
+        flash 500ms ease
+        random(--delay element-scoped, 0ms, 600ms);
+    }
+
+    .hint {
+      margin: 28px 0 0;
+      color: #827bb1;
+      font-size: 14px;
+    }
+
+    .code {
+      display: inline-block;
+      padding: 0.15em 0.45em;
+      color: #3223b3;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: #efedff;
+      border-radius: 0.45em;
+    }
+
+    @keyframes flash {
+      50% {
+        color: #7c71f6;
+      }
+    }
+
+    @supports not (width: random(--test element-scoped, 1px, 2px)) {
+      .supported-content {
+        display: none !important;
+      }
+
+      .unsupported {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<main class="panel">
+  <div class="supported-content">
+    <h1 class="headline">
+      <span class="line"><span class="char">I</span><span class="char">C</span><span class="char">S</span><span class="space">&nbsp;</span><span class="char">M</span><span class="char">E</span><span class="char">D</span><span class="char">I</span><span class="char">A</span><span class="char">で</span><span class="char">試</span><span class="char">す</span></span>
+      <span class="line"><span class="char">C</span><span class="char">S</span><span class="char">S</span><span class="space">&nbsp;</span><span class="char">r</span><span class="char">a</span><span class="char">n</span><span class="char">d</span><span class="char">o</span><span class="char">m</span><span class="char">(</span><span class="char">)</span><span class="char">の</span><span class="char">新</span><span class="char">し</span><span class="char">い</span><span class="char">表</span><span class="char">現</span></span>
+    </h1>
+
+    <p class="hint">
+      テキストにhoverすると、文字ごとに <br>
+      <span class="code">animation-delay</span>
+      がランダムに変わります。
+    </p>
+  </div>
+
+  <p class="unsupported">Safari 26.5以降で確認してください。<br>このデモはCSSのrandom()とelement-scopedを使用しています。</p>
+</main>
+</body>
+</html>
